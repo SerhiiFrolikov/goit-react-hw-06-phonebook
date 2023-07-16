@@ -15,14 +15,12 @@ export const ContactList = () => {
   const queryFilter = useSelector(getFilteredNames);
 
   const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(queryFilter?.toLowerCase())
+    contact.name.toLowerCase().includes(queryFilter.toLowerCase())
   );
-
-  const contactsForRender = queryFilter ? filteredContacts : contacts;
 
   return (
     <List>
-      {contactsForRender.map(({ name, id, number }) => {
+      {filteredContacts.map(({ name, id, number }) => {
         return (
           <ListItem key={id}>
             <Name>

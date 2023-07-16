@@ -1,4 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact, getContactsNames } from 'redux/contactsSlice';
 import {
@@ -11,12 +12,13 @@ import {
 export const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContactsNames);
-  let name = '';
-  let number = '';
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
   const onChange = e => {
-    if (e.target.name === 'name') name = e.target.value;
-    if (e.target.name === 'number') number = e.target.value;
+    const { name, value } = e.target;
+    if (name === 'name') setName(value);
+    if (name === 'number') setNumber(value);
   };
 
   const addContacts = e => {
@@ -30,8 +32,8 @@ export const ContactForm = () => {
 
     const id = nanoid(10);
     dispatch(addContact({ id, name, number }));
-    e.target[0].value = '';
-    e.target[1].value = '';
+    setName('');
+    setNumber('');
   };
 
   return (
@@ -45,6 +47,7 @@ export const ContactForm = () => {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           placeholder="Serhii"
           onChange={onChange}
+          value={name}
           required
         />
       </FormLabel>
@@ -57,6 +60,7 @@ export const ContactForm = () => {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           placeholder="000 000 00 00"
           onChange={onChange}
+          value={number}
           required
         />
       </FormLabel>
